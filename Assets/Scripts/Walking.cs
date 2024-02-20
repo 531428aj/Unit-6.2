@@ -23,7 +23,7 @@ public class Walking : MonoBehaviour
     public LayerMask groundMask;
 
     Vector3 velocity;
-    bool isGrounded;
+    bool isGrounded, bool isCrouched;
 
     void Start()
     {
@@ -49,7 +49,7 @@ public class Walking : MonoBehaviour
             velocity.y = -2f;
         }
 
-        if (direction.magnitude >= 0.1f)
+        if (direction.magnitude >= 0.1f && (isCrouching == false))
         {
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
@@ -75,10 +75,12 @@ public class Walking : MonoBehaviour
         if (Input.GetKeyDown("c"))
         {
             animator.SetBool("Crouch", true);
+            isCrouching = true
         }
         if (Input.GetKeyDown("x"))
         {
             animator.SetBool("Crouch", false);
+            isCrouching = false
         }
     }
 }
